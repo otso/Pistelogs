@@ -1,0 +1,126 @@
+PisteLogs
+=========
+
+Pistelogs provides a concept service implementation on top of the Push Snowboarding
+project. More information about this concept, screenshots and the main use cases
+considered refer to the following blog post:
+
+    http://otsov.wordpress.com/2011/12/17/push/
+
+The Pistelogs prototype consists of:
+
+ * a server side implementation for a service for the shredders using Push
+   Snowboarding client - live instance here:
+
+    http://pistelogs.appspot.com/
+
+ * an upload client for device side to send the logs to the service:
+ 
+    https://github.com/otso/Push-Snowboarding
+ 
+The latter is just an ugly hack on top of the Push Snowboarding client to add
+log sending functionality. The former is living in this source code tree.
+
+A third piece of code missing from this repository is a screen scraping script
+for fetching and populating the service with the ski resorts information.
+This code and data is available from the author via email.
+
+
+Working with the service
+------------------------
+
+Installation:
+
+    1) Install/fetch google appengine
+    2) Clone pistelogs server code from github under google appengine
+    3) Under pistelogs, install the google app engine helper (GAEH):
+    
+        code.google.com/p/google-app-engine-django/
+    
+    4) Under pistelogs, modify settings.py with your secret key
+    
+    Your source code tree should now look like:
+    
+        google_appengine/
+        |-- demos
+        |-- google
+        |-- lib
+        |-- pistelogs                   // under here, cloned tree from the repo
+        |   |-- appengine_django        // from GAEH
+        |   |-- django                  // from GAEH
+        |   |-- media
+        |   |-- pistelogs
+        |   `-- templates
+        |-- new_project_template
+        |-- templates
+        `-- tools
+
+Running locally (after this, available at http://localhost:8080/):
+
+    #:~/pistelogs/google_appengine$ ./dev_appserver.py --datastore_path=./pistelogs_datastore pistelogs/
+
+For your version to be running live in appengine you will need to choose another
+identifier than 'pistelogs' for your project. Replace below with your 
+identifier.
+
+Update live version:
+
+    ./appcfg.py update pistelogs/
+
+Disable/enable in appspot:
+
+    https://appengine.google.com/
+    
+Online address:
+
+    http://pistelogs.appspot.com/
+
+Maintenance + deployment:
+
+    The .sh scripts provide pre-population and validate the concept:
+        
+        populate_live.sh
+        populate_localhost.sh
+
+Localhost data viewer:
+
+    Go to http://localhost:8080/_ah/admin/datastore
+
+Acknowledgements and code used
+------------------------------
+
+    * geobox.py (http://code.google.com/appengine/articles/geosearch.html and
+               http://code.google.com/p/mutiny/source/browse/trunk/geobox.py#)
+        - Apache v2.0, mutiny example is also copied in the Resort-class
+            http://code.google.com/p/mutiny/
+    
+    * http://www.johndcook.com/python_longitude_latitude.html
+
+    * BeatifulSoup (for ResortFetcher.py - not published atm)
+
+    * Icons
+
+        http://www.iconfinder.com/icondetails/43220/128/arrow_monotone_next_play_right_icon
+        Same source for the user "mugshot" (link missing)
+
+    * The author is a Nokia employee - this solution has been done as part of
+    the Nokia EPP - hence it does not necessarily represent the official view of
+    the company
+
+TODO
+----
+
+Plenty of things to do as this really is a proof of concept effort... 
+All current work items identified with 'TODO' or 'XXX' in the live site.
+
+Bigger tasks:
+
+ * Hardcoded data in the client and receival end should be dynamic and 
+   modifiable by the user - add UI for this
+ * Data sent OTA should be more efficient in format than currently
+ * Authentication to the site with facebook accounts
+ * Shared secret for the client?
+ * Remove the polling from the user profile view - use the appengine Channel API
+   instead
+ * Localization
+

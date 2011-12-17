@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block scripts %}
+<style type="text/css">
+  #map_canvas { height: 50% }
+</style> 
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.3&sensor=true"></script>
+  <script type="text/javascript"> 
+  $(function() {
+   loadMap();
+  });
+  
+  function loadMap() {   
+
+  {% for log_entry in polished %}
+      lat = {{ log_entry.run_start_location_lat }};
+      lon = {{ log_entry.run_start_location_lon }};
+  {% endfor %}
+  
+      var myLatlng = new google.maps.LatLng(lat, lon);
+  
+      var myOptions = {
+         zoom: 10,
+         center: myLatlng,
+         mapTypeId: google.maps.MapTypeId.TERRAIN
+       }
+      var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+      
+      var marker = new google.maps.Marker({
+         position: myLatlng, 
+         map: map, 
+         title: "{{user_name}}" + " shredding"
+      });
+  }
+  
+  </script>  
+{% endblock %}
+{% block content %}
+   <div class="span-3 colborder">
+      <img src="/static/unknown.png" height="75" class="top right" alt="unknown icon"/>
+   </div>
+   <div class="span-7">
+   <h3 class="quiet">Shred details</h3>
+    <ul>
+    {% for log_entry in polished %}
+       <li><b>Duration:</b> {{ log_entry.run_duration }}</li>
+       <li><b>Length in km:</b> {{ log_entry.run_length }}</li> 
+       <li><b>Highest point:</b> {{ log_entry.run_highest }} meters </li>
+       <li><b>Jumps:</b> {{ log_entry.run_jumps }} </li>
+       <li><b>Average speed:</b> {{ log_entry.run_avg_speed }} km/h </li>
+       <li><b>Max speed:</b> {{ log_entry.run_max_speed }} km/h </li>
+       <li><b>Stick:</b> {{ log_entry.run_board }} </li>
+       <li><b>Stance:</b> {{ log_entry.run_stance }} (front: {{ log_entry.run_degree_front }}, back {{ log_entry.run_degree_back }})</li>
+       <li><b>Music:</b> {{ log_entry.run_music }} </li>
+       <li><b>Resort:</b> {% if log_entry.run_resort %}<a href="/resort/{{ log_entry.run_resort.key.id }}">{{ log_entry.run_resort.name }}</a></li>
+                          {% else %}<a href="/oob">Shredding OOB!</a></li>{% endif %}
+    {% endfor %}
+    </ul>
+   <a href="/profile/{{user_name}}">Back to {{user_name}}'s home</a>
+   <br><br><br><br>
+   </div>
+  <div class="span-12 last" id="map_canvas"></div>
+{% endblock %}

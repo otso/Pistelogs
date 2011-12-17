@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+    <ul>
+    {% for log_entry in polished_logs %}
+       <li><b>Start time:</b> {{ log_entry.start_time }}</li>
+       <li><b>Highest point:</b> {{ log_entry.highest }} meters </li>
+       <li><b>Jumps:</b> {{ log_entry.jumps }} </li>
+       <li><b>Average speed:</b> {{ log_entry.avg_speed }} km/h </li>
+       <li><b>Max speed:</b> {{ log_entry.max_speed }} km/h </li>
+       <li><b>Location:</b> <a href="http://maps.google.com/maps/api/staticmap?center={{ log_entry.location.lat }},{{ log_entry.location.lon }}&zoom=12&size=400x400&sensor=false">{{ log_entry.location.lat }} {{ log_entry.location.lon }}</a></li>
+       <p><img border="0" src="http://maps.google.com/maps/api/staticmap?center={{ log_entry.location.lat }},{{ log_entry.location.lon }}&zoom=12&size=400x400&sensor=false" alt="loc" /></p> 
+    {% endfor %}
+    </ul>
+{% endblock %}

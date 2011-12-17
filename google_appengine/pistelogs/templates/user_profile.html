@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block scripts %}
+  <script type="text/javascript"> 
+  var first_time = new Boolean();
+  first_time = true;
+  
+  $(function() {
+    timestamp = 0;
+    updateMsg();
+  });
+    
+  function addRecent(recent) {   
+    if (!($.isEmptyObject(recent))) {
+      // first time we only sync the clock with the most recent item in db
+      if (first_time) {
+         timestamp = recent.time
+         first_time = false
+      } else {
+      timestamp = recent.time;
+      var recent_item = '<li><span style="line-height:40px;">NEW RIDE ONGOING! </span><a href="/{{ user_name }}/run/' +
+                        recent.id + '"><img src="/static/arrow_r.png" class="right" style="height:40px;vertical-align:middle" alt="open shred"/></a></li><hr>'
+        
+      // append to the top of the list
+      $(recent_item).prependTo('#recents').css({opacity:0}).slideDown("slow").animate({opacity:1},1000);
+        
+      // delete from the bottom of the list:
+      //$('#recents li:last').remove();
+      }
+    }
+  } 
+  
+  function updateMsg() {   
+    $.getJSON("/api/recent",{ time: timestamp }, function(recent) {    
+      addRecent(recent);   
+    });   
+    setTimeout('updateMsg()', 10000);   
+  }
+  </script>   
+{% endblock %}
+{% block content %}
+   <div class="span-4 colborder">
+      <img src="/static/unknown.png" height="150" class="top right" alt="unknown icon"/>
+   </div>
+   <div class="span-18 last">
+   <h3 class="quiet">{{ polished.name }}</h3>
+   <div class="box rounded_corners">
+    <ul>
+       <li><b>Total runs</b> {{ polished.total_runs }}</li>
+       <li><b>Total km</b> {{ polished.total_km }}</li>
+       <li><b>Total time minutes</b> {{ polished.total_time }}</li>
+       <li><b>Total jumps</b> {{ polished.total_jumps }}</li>
+       <li><b>Sticks used</b> <a href="http://www.burton.com/mens-boards-aftermath-squeezebox-snowboard/245753,default,pd.html">Burton Aftermath</a>, <a href="http://www.lib-tech.com/snow/snowboards/phoenix-series-mark-landvik/">Libtech Lando C2</a> XXX</li>       
+    </ul>
+   </div>
+    <h3 class="quiet">Recent activities</h3>
+    <hr>
+   <div class="span-10 last">
+    <ul id="recents">
+   {% for run in runs_polished %}
+      <li><span style="line-height:40px;">Run length {{ run.run_length }} km, {{ run.run_time }} </span><a href="/{{ user_name }}/run/{{ run.run_guid }}"><img src="/static/arrow_r.png" class="right" style="height:40px;vertical-align:middle" alt="open shred"/></a></li>
+      <hr>
+{% endfor %}
+      <li> {{ polished.name }} visited first time <a href="http://www.absolutpark.com/thestash/">Flachau Stash</a>, 5 days ago <img src="/static/arrow_r.png" class="right" style="height:40px;vertical-align:middle" alt="open shred"/></a> XXX </li>
+      <hr>
+    </ul>
+   </div>
+   </div>
+{% endblock %}

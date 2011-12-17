@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <ul>
+    {% for log_entry in raw_logs %}
+       <li><b>User:</b> {{ log_entry.user_id.user_id }}</li>
+       <li><b>Created:</b> {{ log_entry.created }}</li>
+       <li><b>User:</b> {{ log_entry.log_data }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

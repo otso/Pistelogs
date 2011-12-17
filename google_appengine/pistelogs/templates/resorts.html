@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+   <h2 class="alt">Resort information</h2> 
+
+   <p>
+     Currently hosting {{ resort_count }} resorts:
+   </p>
+   <div class="span-5 box rounded_corners">
+   <ul>
+   {% for resort in resorts %}
+    <li><a href="/resort/{{ resort.key.id }}"> {{ resort.name }}</a></li>
+   {% endfor %}
+   </ul>
+   </div>
+{% endblock %}

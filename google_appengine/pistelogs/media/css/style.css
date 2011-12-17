@@ -1,0 +1,8 @@
+.rounded_corners{
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -webkit-border-radius: 10px;    /* for Safari */
+    /*border: 1px solid #999;*/
+}

@@ -1,0 +1,21 @@
+application: pistelogs
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /static
+  static_dir: media/static
+
+- url: /css
+  static_dir: media/css
+
+- url: /remote_api
+  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
+  login: admin
+
+- url: /.*
+  script: main.py
+
+builtins:
+- datastore_admin: on

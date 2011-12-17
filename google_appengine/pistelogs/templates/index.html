@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block scripts %}
+{% endblock %}
+{% block content %}
+   <div class="span-12">
+   <h2 class="quiet">Log your shreds with Pistelogs.</h2>
+   </div>
+   <div class="span-10 last">
+    <p> Instructions for invitations XXX</p>
+   </div>
+   <hr>
+   <div class="span-5 box rounded_corners">
+    <h3 class="">Top riders</h3>
+    <ul>
+    {% for user in users %}
+       <li><b><a href="/profile/{{ user.user_id }}">{{ user.user_id }}</a></b></li>
+    {% endfor %}
+    </ul>
+   </div>
+   <div class="span-5 box rounded_corners">
+    <h3 class="">Rides ongoing</h3>
+    <ul>
+      <li>XXX</li>
+      <li>XXX</li>
+      <li>XXX</li>
+      <li>XXX</li>
+      <li>XXX</li>
+    </ul>
+   </div>
+   <div class="span-5 box rounded_corners">
+    <h3 class="">Top resorts</h3>
+    <ul>
+    {% for resort in resorts %}
+       <li><a href="/resort/{{ resort.key.id }}">{{ resort.name }}</a></li>
+    {% endfor %}
+    </ul>
+   </div>
+   <div class="span-5 last box rounded_corners">
+    <h3 class="">Top boards</h3>
+    <ul>
+      <li>Burton</li>
+      <li>LibTech</li>
+      <li>K2</li>
+      <li>Salomon</li>
+      <li>Nitro</li>
+    </ul>
+   </div>   
+
+   <a href="/test">Scrapbook</a>
+   <p></p> 
+{% endblock %}

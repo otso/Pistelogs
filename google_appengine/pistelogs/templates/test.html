@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Scrapbook</h2>
+    <ul>
+    {% for user in users %}
+       <li><b>User:</b> {{ user.user_id }} |<a href="/profile/{{ user.user_id }}">profile</a>|<a href="/test/runs/{{ user.user_id }}">runs</a>|<a href="/test/polished_user_data/{{ user.user_id }}">polished</a>|<a href="/test/raw_user_data/{{ user.user_id }}">raw</a>|</li>
+    {% endfor %}
+    </ul>    
+{% endblock %}
